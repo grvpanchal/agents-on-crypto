@@ -10,7 +10,8 @@ import {
 
 function* fetchNFTsSaga() {
   try {
-    const res: Response = yield call(fetch, '/api/nfts')
+    const base = process.env.NEXT_PUBLIC_API_BASE || ''
+    const res: Response = yield call(fetch, `${base}/api/nfts`)
     const data = yield call([res, 'json'])
     yield put(fetchNFTsSuccess(data))
   } catch (error: unknown) {
@@ -22,7 +23,8 @@ function* fetchNFTsSaga() {
 
 function* uploadNFTSaga(action: ReturnType<typeof uploadNFT>) {
   try {
-    const res: Response = yield call(fetch, '/api/nfts/upload', {
+    const base = process.env.NEXT_PUBLIC_API_BASE || ''
+    const res: Response = yield call(fetch, `${base}/api/nfts/upload`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(action.payload),
