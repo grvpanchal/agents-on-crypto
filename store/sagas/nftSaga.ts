@@ -8,10 +8,10 @@ import {
   uploadNFTFailure,
 } from '../reducers/nftSlice';
 
-function* fetchNFTsSaga() {
+function* fetchNFTsSaga(): Generator<any, void, any> {
   try {
     const base = process.env.NEXT_PUBLIC_API_BASE || ''
-    const res: Response = yield call(fetch, `${base}/api/nfts`)
+    const res = yield call(fetch, `${base}/api/nfts`)
     const data = yield call([res, 'json'])
     yield put(fetchNFTsSuccess(data))
   } catch (error: unknown) {
@@ -21,10 +21,12 @@ function* fetchNFTsSaga() {
   }
 }
 
-function* uploadNFTSaga(action: ReturnType<typeof uploadNFT>) {
+function* uploadNFTSaga(
+  action: ReturnType<typeof uploadNFT>
+): Generator<any, void, any> {
   try {
     const base = process.env.NEXT_PUBLIC_API_BASE || ''
-    const res: Response = yield call(fetch, `${base}/api/nfts/upload`, {
+    const res = yield call(fetch, `${base}/api/nfts/upload`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(action.payload),
@@ -37,7 +39,7 @@ function* uploadNFTSaga(action: ReturnType<typeof uploadNFT>) {
   }
 }
 
-export function* watchNFTs() {
+export function* watchNFTs(): Generator<any, void, any> {
   yield takeLatest(fetchNFTs.type, fetchNFTsSaga)
   yield takeLatest(uploadNFT.type, uploadNFTSaga)
 }

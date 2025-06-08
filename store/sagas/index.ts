@@ -4,7 +4,7 @@ import { watchNFTs } from './nftSaga';
 import { watchAccount } from './accountSaga';
 import { watchAgents } from './agentSaga';
 
-export default function* rootSaga() {
+export default function* rootSaga(): Generator<any, void, any> {
   yield all([
     watchCategories(),
     watchNFTs(),

@@ -5,10 +5,10 @@ import {
   fetchCategoriesFailure,
 } from '../reducers/categoriesSlice';
 
-function* fetchCategoriesSaga() {
+function* fetchCategoriesSaga(): Generator<any, void, any> {
   try {
     const base = process.env.NEXT_PUBLIC_API_BASE || ''
-    const res: Response = yield call(fetch, `${base}/api/categories`)
+    const res = yield call(fetch, `${base}/api/categories`)
     const data = yield call([res, 'json'])
     yield put(fetchCategoriesSuccess(data))
   } catch (error: unknown) {
@@ -18,6 +18,6 @@ function* fetchCategoriesSaga() {
   }
 }
 
-export function* watchCategories() {
-  yield takeLatest(fetchCategories.type, fetchCategoriesSaga);
+export function* watchCategories(): Generator<any, void, any> {
+  yield takeLatest(fetchCategories.type, fetchCategoriesSaga)
 }

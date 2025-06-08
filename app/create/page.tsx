@@ -147,7 +147,7 @@ export default function CreatePage() {
         dispatch(
             uploadNFT({
                 name: values.name,
-                description: values.description,
+                description: values.description || '',
                 image: imagePreview,
                 price: Number(values.price),
                 tokenId: Date.now().toString(),
