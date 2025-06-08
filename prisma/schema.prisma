@@ -1,7 +1,6 @@
 datasource db {
   provider = "postgresql"
-  // The connection URL from your Neon project goes in `.env`.
-  // When running in Codex, set this variable in the environment settings.
+  // The connection URL from your Neon project goes in `.env`
   url      = env("DATABASE_URL")
 }
 
