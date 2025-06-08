@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { Prisma } from '@prisma/client'
 import { z } from 'zod'
-
 
 const nftSchema = z
   .object({
@@ -27,11 +27,15 @@ const nftSchema = z
   })
   .strict()
 
-
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const parsed = nftSchema.safeParse(body)
+
+    // Remove client-supplied id field to prevent unique constraint failures
+    const { id: _ignored, ...withoutId } = body as Record<string, unknown>
+
+    const parsed = nftSchema.safeParse(withoutId)
+
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -40,9 +44,21 @@ export async function POST(request: Request) {
       )
     }
 
-    const nft = await prisma.nft.create({ data: parsed.data })
+
+    const nft = await prisma.nft.create({
+      data: parsed.data as Prisma.NftUncheckedCreateInput,
+    })
     return NextResponse.json(nft, { status: 201 })
   } catch (err) {
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      err.code === 'P2002'
+    ) {
+      return NextResponse.json(
+        { error: 'NFT with the provided id already exists' },
+        { status: 409 }
+      )
+    }
     console.error('NFT upload error', err)
     return NextResponse.json({ error: 'Failed to upload NFT' }, { status: 500 })
   }
