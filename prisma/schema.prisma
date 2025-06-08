@@ -1,7 +1,11 @@
 datasource db {
   provider = "postgresql"
+  // The connection URL from your Neon project goes in `.env`.
+  // When running in Codex, set this variable in the environment settings.
   url      = env("DATABASE_URL")
 }
+
+// After pushing the schema, run `npx prisma db seed` to populate sample data.
 
 generator client {
   provider = "prisma-client-js"
