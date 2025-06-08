@@ -1,0 +1,29 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agent {
+  id         Int    @id @default(autoincrement())
+  name       String
+  profileUrl String @unique
+  image      String?
+  bio        String?
+}
+
+model Nft {
+  id          Int      @id @default(autoincrement())
+  name        String
+  tokenId     String
+  image       String
+  description String?
+  price       Float
+  creator     String
+  owner       String?
+  createdAt   DateTime @default(now())
+}
+

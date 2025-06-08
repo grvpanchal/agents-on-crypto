@@ -36,7 +36,7 @@ export function CreatedNFTs() {
       <div className="text-center py-12">
         <h3 className="text-xl font-medium mb-2">No created NFTs found</h3>
         <p className="text-muted-foreground">
-          You haven't created any NFTs yet. Start creating your first NFT.
+          You haven&apos;t created any NFTs yet. Start creating your first NFT.
         </p>
       </div>
     );

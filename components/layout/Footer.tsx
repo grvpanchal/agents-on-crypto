@@ -17,7 +17,7 @@ export function Footer() {
               <h3 className="text-lg font-bold">Agents on Crypto</h3>
             </div>
             <p className="text-sm text-muted-foreground">
-              Discover, collect, and trade AI agents on the world's first blockchain-based AI agent marketplace.
+              Discover, collect, and trade AI agents on the world&apos;s first blockchain-based AI agent marketplace.
             </p>
             <div className="flex space-x-4">
               <a href={socialLinks.twitter} className="text-muted-foreground hover:text-primary transition-colors">
