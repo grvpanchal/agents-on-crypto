@@ -10,7 +10,8 @@ import {
 
 function* fetchAgentsSaga() {
   try {
-    const res: Response = yield call(fetch, '/api/agents')
+    const base = process.env.NEXT_PUBLIC_API_BASE || ''
+    const res: Response = yield call(fetch, `${base}/api/agents`)
     const data = yield call([res, 'json'])
     yield put(fetchAgentsSuccess(data))
   } catch (err: unknown) {
@@ -24,7 +25,8 @@ function* updateAgentProfileUrlSaga(
 ) {
   try {
     const { id, profileUrl } = action.payload
-    const res: Response = yield call(fetch, `/api/agents/${id}`, {
+    const base = process.env.NEXT_PUBLIC_API_BASE || ''
+    const res: Response = yield call(fetch, `${base}/api/agents/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ profileUrl }),
