@@ -123,7 +123,7 @@ export const mockNFTs = [
         operationCost: 100,
     },
     {
-        id: 6,
+        id: 13,
         name: "Quantum Realm #003",
         tokenId: "3821",
         image: "https://images.pexels.com/photos/8797307/pexels-photo-8797307.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
