@@ -23,7 +23,7 @@ model Nft {
   name            String
   tokenId         String
   image           String
-  description     String
+  description     String?
   price           Float
   highestBid      Float?      // ← Add this field
   creator         String
