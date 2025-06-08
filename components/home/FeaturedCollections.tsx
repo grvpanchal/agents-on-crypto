@@ -1,18 +1,24 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 import { ChevronRight, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { mockCollections } from '@/lib/mockData';
 
 export function FeaturedCollections() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const [collections, setCollections] = useState<any[]>([])
+
+  useEffect(() => {
+    fetch('/api/collections')
+      .then(res => res.json())
+      .then(setCollections)
+      .catch(() => setCollections([]))
+  }, [])
   
   return (
     <section className="py-20">
@@ -35,7 +41,7 @@ export function FeaturedCollections() {
           ref={ref}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {mockCollections.slice(0, 3).map((collection, index) => (
+          {collections.slice(0, 3).map((collection, index) => (
             <motion.div
               key={collection.id}
               initial={{ opacity: 0, y: 20 }}

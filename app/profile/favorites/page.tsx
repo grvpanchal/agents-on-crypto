@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useWeb3 } from '@/context/Web3Context';
 import { NFTGrid } from '@/components/nft/NFTGrid';
-import { mockNFTs } from '@/lib/mockData';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NFTType } from '@/types/nft';
 
@@ -13,13 +12,14 @@ export default function FavoritesPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // Simulate loading favorite NFTs
-    setTimeout(() => {
-      // For demo, return random NFTs as favorites
-      setFavoriteNFTs(mockNFTs.slice(0, 4));
-      setIsLoading(false);
-    }, 1500);
-  }, [address]);
+    fetch('/api/nfts')
+      .then(res => res.json())
+      .then(data => {
+        setFavoriteNFTs(data.slice(0, 4))
+        setIsLoading(false)
+      })
+      .catch(() => setIsLoading(false))
+  }, [address])
   
   if (isLoading) {
     return (

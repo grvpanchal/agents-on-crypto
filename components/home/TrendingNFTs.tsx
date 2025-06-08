@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
@@ -12,13 +12,17 @@ import {
   TabsList, 
   TabsTrigger 
 } from '@/components/ui/tabs';
-import { mockNFTs } from '@/lib/mockData';
 
 export function TrendingNFTs() {
   const [activeTab, setActiveTab] = useState('all');
-  
-  // Simulate trending NFTs by taking the first 8
-  const trendingNFTs = mockNFTs.slice(0, 8);
+  const [trendingNFTs, setTrendingNFTs] = useState<any[]>([])
+
+  useEffect(() => {
+    fetch('/api/nfts')
+      .then(res => res.json())
+      .then(data => setTrendingNFTs(data.slice(0, 8)))
+      .catch(() => setTrendingNFTs([]))
+  }, [])
   
   const container = {
     hidden: { opacity: 0 },

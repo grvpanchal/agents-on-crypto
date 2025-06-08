@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { NFTType } from '@/types/nft';
 import { NFTCard } from '@/components/nft/NFTCard';
-import { mockNFTs } from '@/lib/mockData';
 
 interface NFTMoreFromCollectionProps {
   nft: NFTType;
@@ -17,15 +16,17 @@ export function NFTMoreFromCollection({ nft }: NFTMoreFromCollectionProps) {
   const [isLoading, setIsLoading] = useState(true);
   
   useEffect(() => {
-    // In a real app, this would fetch from an API
-    // For now, we'll filter by category from our mock data
-    const filtered = mockNFTs
-      .filter((item) => item.category === nft.category && item.id !== nft.id)
-      .slice(0, 4);
-    
-    setRelatedNFTs(filtered);
-    setIsLoading(false);
-  }, [nft]);
+    fetch('/api/nfts')
+      .then(res => res.json())
+      .then(data => {
+        const filtered = data
+          .filter((item: NFTType) => item.category === nft.category && item.id !== nft.id)
+          .slice(0, 4)
+        setRelatedNFTs(filtered)
+        setIsLoading(false)
+      })
+      .catch(() => setIsLoading(false))
+  }, [nft])
   
   if (isLoading) {
     return (
