@@ -30,10 +30,12 @@ const nftSchema = z
 export async function POST(request: Request) {
   try {
     const body = await request.json()
+
     // Remove client-supplied id field to prevent unique constraint failures
     const { id: _ignored, ...withoutId } = body as Record<string, unknown>
 
     const parsed = nftSchema.safeParse(withoutId)
+
 
     if (!parsed.success) {
       return NextResponse.json(
@@ -41,6 +43,7 @@ export async function POST(request: Request) {
         { status: 400 }
       )
     }
+
 
     const nft = await prisma.nft.create({
       data: parsed.data as Prisma.NftUncheckedCreateInput,
@@ -56,7 +59,6 @@ export async function POST(request: Request) {
         { status: 409 }
       )
     }
-
     console.error('NFT upload error', err)
     return NextResponse.json({ error: 'Failed to upload NFT' }, { status: 500 })
   }
