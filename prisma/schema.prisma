@@ -19,16 +19,28 @@ model Agent {
 }
 
 model Nft {
-  id          Int      @id @default(autoincrement())
-  name        String
-  tokenId     String
-  image       String
-  description String?
-  price       Float
-  creator     String
-  owner       String?
-  createdAt   DateTime @default(now())
+  id              Int     @id @default(autoincrement())
+  name            String
+  tokenId         String
+  image           String
+  description     String
+  price           Float
+  highestBid      Float?      // ← Add this field
+  creator         String
+  creatorAddress  String
+  creatorImage    String
+  owner           String
+  ownerAddress    String
+  contractAddress String
+  likes           Int
+  views           Int
+  category        String
+  verified        Boolean
+  level           String
+  vendor          String
+  operationCost   Float
 }
+
 
 model Category {
   id          Int    @id @default(autoincrement())
