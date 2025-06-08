@@ -1,23 +1,24 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { mockNFTs } from '@/lib/mockData';
 import {
   fetchOwnedNFTs,
   fetchOwnedNFTsSuccess,
   fetchOwnedNFTsFailure,
 } from '../reducers/accountSlice';
 
-function* fetchOwnedNFTsSaga() {
+function* fetchOwnedNFTsSaga(): Generator<any, void, any> {
   try {
-    // Simulate API call
-    yield new Promise(resolve => setTimeout(resolve, 1000));
-    const ownedNFTs = mockNFTs.slice(0, 3); // Mock owned NFTs
-    yield put(fetchOwnedNFTsSuccess(ownedNFTs));
+    const base = process.env.NEXT_PUBLIC_API_BASE || ''
+    const res = yield call(fetch, `${base}/api/nfts`)
+    const data = yield call([res, 'json'])
+    const ownedNFTs = data.slice(0, 3)
+    yield put(fetchOwnedNFTsSuccess(ownedNFTs))
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    yield put(fetchOwnedNFTsFailure(errorMessage));
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred'
+    yield put(fetchOwnedNFTsFailure(errorMessage))
   }
 }
 
-export function* watchAccount() {
-  yield takeLatest(fetchOwnedNFTs.type, fetchOwnedNFTsSaga);
+export function* watchAccount(): Generator<any, void, any> {
+  yield takeLatest(fetchOwnedNFTs.type, fetchOwnedNFTsSaga)
 }

@@ -30,7 +30,7 @@ export function OwnedNFTs({ nfts }: OwnedNFTsProps) {
       <div className="text-center py-12">
         <h3 className="text-xl font-medium mb-2">No NFTs found</h3>
         <p className="text-muted-foreground">
-          You don't own any NFTs yet. Browse the marketplace to start your collection.
+          You don&apos;t own any NFTs yet. Browse the marketplace to start your collection.
         </p>
       </div>
     );

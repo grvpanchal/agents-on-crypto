@@ -1,10 +1,9 @@
-import { mockNFTs } from '@/lib/mockData';
+import { prisma } from '@/lib/prisma'
 import { NFTPage } from '@/components/nft/NFTPage';
 
-export function generateStaticParams() {
-  return mockNFTs.map((nft) => ({
-    id: nft.id.toString(),
-  }));
+export async function generateStaticParams() {
+  const nfts = await prisma.nft.findMany({ select: { id: true } })
+  return nfts.map((nft) => ({ id: nft.id.toString() }))
 }
 
 export default function Page({ params }: { params: { id: string } }) {

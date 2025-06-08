@@ -43,6 +43,18 @@ const nftSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    uploadNFT: (state, _action: PayloadAction<Partial<NFTType>>) => {
+      state.loading = true;
+    },
+    uploadNFTSuccess: (state, action: PayloadAction<NFTType>) => {
+      state.items.unshift(action.payload);
+      state.loading = false;
+      state.error = null;
+    },
+    uploadNFTFailure: (state, action: PayloadAction<string>) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
     setSelectedNFT: (state, action: PayloadAction<NFTType>) => {
       state.selectedNFT = action.payload;
     },
@@ -86,5 +98,8 @@ export const {
   toggleProperty,
   setSearchTerm,
   resetFilters,
+  uploadNFT,
+  uploadNFTSuccess,
+  uploadNFTFailure,
 } = nftSlice.actions;
 export default nftSlice.reducer;
