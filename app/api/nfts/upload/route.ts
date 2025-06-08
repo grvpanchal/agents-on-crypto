@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
+
 const nftSchema = z
   .object({
     name: z.string(),
@@ -25,6 +26,7 @@ const nftSchema = z
     operationCost: z.coerce.number(),
   })
   .strict()
+
 
 export async function POST(request: Request) {
   try {
