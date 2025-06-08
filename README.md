@@ -21,3 +21,5 @@ Run `npm run dev` to start the Next.js application.
 3. Copy `.env.example` to `.env` in the project root and set `DATABASE_URL` to
    this connection string.
 4. Run `npx prisma db push` to create the database tables for local development.
+
+
