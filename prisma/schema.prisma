@@ -30,3 +30,42 @@ model Nft {
   createdAt   DateTime @default(now())
 }
 
+model Category {
+  id          Int    @id @default(autoincrement())
+  name        String
+  slug        String  @unique
+  description String
+  banner      String
+  logo        String
+  items       Int
+  floorPrice  Float
+  volume      Float
+}
+
+model Collection {
+  id             Int    @id @default(autoincrement())
+  name           String
+  slug           String @unique
+  description    String
+  creator        String
+  creatorAddress String
+  logo           String
+  banner         String
+  items          Int
+  owners         Int
+  floorPrice     Float
+  volume         Float
+  category       String
+  verified       Boolean
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  type        String
+  item        String
+  price       Float?
+  fromAddress String
+  toAddress   String?
+  date        DateTime
+}
+

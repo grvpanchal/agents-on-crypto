@@ -30,17 +30,26 @@ import {
   AlertTriangle, 
   Info 
 } from 'lucide-react';
-import { mockCategories } from '@/lib/mockData';
+import { useAppSelector } from '@/hooks/useAppSelector'
+import { fetchCategories } from '@/store/reducers/categoriesSlice'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { uploadNFT } from '@/store/reducers/nftSlice';
 
 export default function CreatePage() {
-  const { connected, connectWallet } = useWeb3();
+  const dispatch = useAppDispatch();
+  const { items: categories } = useAppSelector((state) => state.categories)
+  const { connected, connectWallet, address } = useWeb3();
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  useEffect(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
   
   useEffect(() => {
     // Redirect if not connected after a delay
@@ -128,16 +137,25 @@ export default function CreatePage() {
     }
     
     setIsSubmitting(true);
-    
-    // Simulate blockchain interaction for minting
-    setTimeout(() => {
-      toast({
-        title: 'NFT Created!',
-        description: 'Your NFT has been successfully minted',
-      });
-      setIsSubmitting(false);
-      router.push('/profile');
-    }, 2000);
+
+    dispatch(
+      uploadNFT({
+        name: values.name,
+        description: values.description,
+        image: imagePreview,
+        price: Number(values.price),
+        creator: address || '',
+        tokenId: Date.now().toString(),
+      })
+    );
+
+    toast({
+      title: 'NFT Created!',
+      description: 'Your NFT has been successfully minted',
+    });
+
+    setIsSubmitting(false);
+    router.push('/profile');
   };
   
   if (!connected) {
@@ -257,7 +275,7 @@ export default function CreatePage() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {mockCategories.map((category) => (
+                        {categories.map((category) => (
                           <SelectItem key={category.id} value={category.slug}>
                             {category.name}
                           </SelectItem>

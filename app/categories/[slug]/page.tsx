@@ -1,10 +1,9 @@
-import { mockCategories } from '@/lib/mockData';
+import { prisma } from '@/lib/prisma'
 import { CategoryPage } from '@/components/category/CategoryPage';
 
-export function generateStaticParams() {
-  return mockCategories.map((category) => ({
-    slug: category.slug,
-  }));
+export async function generateStaticParams() {
+  const categories = await prisma.category.findMany({ select: { slug: true } })
+  return categories.map((category) => ({ slug: category.slug }))
 }
 
 export default function Page({ params }: { params: { slug: string } }) {
