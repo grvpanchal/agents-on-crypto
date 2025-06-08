@@ -17,7 +17,9 @@ export function CreatedNFTs() {
     dispatch(fetchNFTs());
   }, [dispatch]);
   
-  const createdNFTs = nfts.filter(nft => nft.creatorAddress === address);
+  const createdNFTs = nfts.filter(
+    nft => nft.creatorAddress === address || nft.creator === address
+  );
   
   if (loading) {
     return (

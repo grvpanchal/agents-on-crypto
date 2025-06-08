@@ -34,9 +34,12 @@ import { mockCategories } from '@/lib/mockData';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { uploadNFT } from '@/store/reducers/nftSlice';
 
 export default function CreatePage() {
-  const { connected, connectWallet } = useWeb3();
+  const dispatch = useAppDispatch();
+  const { connected, connectWallet, address } = useWeb3();
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -128,16 +131,25 @@ export default function CreatePage() {
     }
     
     setIsSubmitting(true);
-    
-    // Simulate blockchain interaction for minting
-    setTimeout(() => {
-      toast({
-        title: 'NFT Created!',
-        description: 'Your NFT has been successfully minted',
-      });
-      setIsSubmitting(false);
-      router.push('/profile');
-    }, 2000);
+
+    dispatch(
+      uploadNFT({
+        name: values.name,
+        description: values.description,
+        image: imagePreview,
+        price: Number(values.price),
+        creator: address || '',
+        tokenId: Date.now().toString(),
+      })
+    );
+
+    toast({
+      title: 'NFT Created!',
+      description: 'Your NFT has been successfully minted',
+    });
+
+    setIsSubmitting(false);
+    router.push('/profile');
   };
   
   if (!connected) {
