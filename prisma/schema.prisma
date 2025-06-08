@@ -4,6 +4,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// After pushing the schema, run `npx prisma db seed` to populate sample data.
+
 generator client {
   provider = "prisma-client-js"
 }

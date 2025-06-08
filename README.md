@@ -19,7 +19,13 @@ Run `npm run dev` to start the Next.js application.
 2. From the project dashboard, copy the provided connection string (it will look
    like `postgres://USER:PASSWORD@HOST/dbname?sslmode=require`).
 3. Copy `.env.example` to `.env` in the project root and set `DATABASE_URL` to
-   this connection string.
+   this connection string (or configure the variable in the Codex environment
+   settings).
 4. Run `npx prisma db push` to create the database tables for local development.
 
+## Seeding the Database
 
+1. After the tables are created, run `npx prisma db seed` to insert example
+   agents and NFTs defined in `prisma/seed.ts`.
+2. Run `npx prisma studio` and open your browser to view the `Agent` and `Nft`
+   tables. You should see the sample records inserted by the seed script.
