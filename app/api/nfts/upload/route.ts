@@ -35,12 +35,14 @@ export async function POST(request: Request) {
 
     const parsed = nftSchema.safeParse(withoutId)
 
+
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid NFT data', details: parsed.error.flatten() },
         { status: 400 }
       )
     }
+
 
     const nft = await prisma.nft.create({
       data: parsed.data as Prisma.NftUncheckedCreateInput,
