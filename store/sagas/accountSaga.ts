@@ -5,10 +5,10 @@ import {
   fetchOwnedNFTsFailure,
 } from '../reducers/accountSlice';
 
-function* fetchOwnedNFTsSaga() {
+function* fetchOwnedNFTsSaga(): Generator<any, void, any> {
   try {
     const base = process.env.NEXT_PUBLIC_API_BASE || ''
-    const res: Response = yield call(fetch, `${base}/api/nfts`)
+    const res = yield call(fetch, `${base}/api/nfts`)
     const data = yield call([res, 'json'])
     const ownedNFTs = data.slice(0, 3)
     yield put(fetchOwnedNFTsSuccess(ownedNFTs))
@@ -19,6 +19,6 @@ function* fetchOwnedNFTsSaga() {
   }
 }
 
-export function* watchAccount() {
-  yield takeLatest(fetchOwnedNFTs.type, fetchOwnedNFTsSaga);
+export function* watchAccount(): Generator<any, void, any> {
+  yield takeLatest(fetchOwnedNFTs.type, fetchOwnedNFTsSaga)
 }

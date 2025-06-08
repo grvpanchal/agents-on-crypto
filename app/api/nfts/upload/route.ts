@@ -2,27 +2,31 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { z } from 'zod'
 
-const nftSchema = z.object({
-  name: z.string(),
-  tokenId: z.string(),
-  image: z.string(),
-  description: z.string().optional(),
-  price: z.preprocess((val) => Number(val), z.number()),
-  highestBid: z.preprocess((val) => (val === undefined ? undefined : Number(val)), z.number().optional()),
-  creator: z.string(),
-  creatorAddress: z.string(),
-  creatorImage: z.string(),
-  owner: z.string(),
-  ownerAddress: z.string(),
-  contractAddress: z.string(),
-  likes: z.preprocess((val) => Number(val), z.number()),
-  views: z.preprocess((val) => Number(val), z.number()),
-  category: z.string(),
-  verified: z.preprocess((val) => Boolean(val), z.boolean()),
-  level: z.string(),
-  vendor: z.string(),
-  operationCost: z.preprocess((val) => Number(val), z.number()),
-})
+
+const nftSchema = z
+  .object({
+    name: z.string(),
+    tokenId: z.string(),
+    image: z.string(),
+    description: z.string().optional(),
+    price: z.coerce.number(),
+    highestBid: z.coerce.number().optional(),
+    creator: z.string(),
+    creatorAddress: z.string(),
+    creatorImage: z.string(),
+    owner: z.string(),
+    ownerAddress: z.string(),
+    contractAddress: z.string(),
+    likes: z.coerce.number(),
+    views: z.coerce.number(),
+    category: z.string(),
+    verified: z.coerce.boolean(),
+    level: z.string(),
+    vendor: z.string(),
+    operationCost: z.coerce.number(),
+  })
+  .strict()
+
 
 export async function POST(request: Request) {
   try {
