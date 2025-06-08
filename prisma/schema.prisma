@@ -1,5 +1,6 @@
 datasource db {
   provider = "postgresql"
+  // The connection URL from your Neon project goes in `.env`
   url      = env("DATABASE_URL")
 }
 
