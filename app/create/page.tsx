@@ -237,7 +237,7 @@ export default function CreatePage() {
                       />
                     </FormControl>
                     <FormDescription>
-                      The description will be displayed on the NFT's detail page.
+                      The description will be displayed on the NFT&apos;s detail page.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -306,7 +306,7 @@ export default function CreatePage() {
                         />
                       </FormControl>
                       <FormDescription>
-                        Percentage of sales you'll receive when someone resells your NFT.
+                        Percentage of sales you&apos;ll receive when someone resells your NFT.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

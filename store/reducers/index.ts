@@ -4,6 +4,7 @@ import footerReducer from './footerSlice';
 import categoriesReducer from './categoriesSlice';
 import nftReducer from './nftSlice';
 import accountReducer from './accountSlice';
+import agentReducer from './agentSlice';
 
 const rootReducer = combineReducers({
   header: headerReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   categories: categoriesReducer,
   nft: nftReducer,
   account: accountReducer,
+  agents: agentReducer,
 });
 
 export default rootReducer;
