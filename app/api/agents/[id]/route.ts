@@ -1,6 +1,11 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export async function generateStaticParams() {
+  const agents = await prisma.agent.findMany({ select: { id: true } })
+  return agents.map(a => ({ id: a.id.toString() }))
+}
+
 export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }
