@@ -1,0 +1,83 @@
+datasource db {
+  provider = "postgresql"
+  // The connection URL from your Neon project goes in `.env`
+  url      = env("DATABASE_URL")
+}
+
+// After pushing the schema, run `npx prisma db seed` to populate sample data.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Agent {
+  id         Int    @id @default(autoincrement())
+  name       String
+  profileUrl String @unique
+  image      String?
+  bio        String?
+}
+
+model Nft {
+  id              Int     @id @default(autoincrement())
+  name            String
+  tokenId         String
+  image           String
+  description     String?
+  price           Float
+  highestBid      Float?      // ← Add this field
+  creator         String
+  creatorAddress  String
+  creatorImage    String
+  owner           String
+  ownerAddress    String
+  contractAddress String
+  likes           Int
+  views           Int
+  category        String
+  verified        Boolean
+  level           String
+  vendor          String
+  operationCost   Float
+}
+
+
+model Category {
+  id          Int    @id @default(autoincrement())
+  name        String
+  slug        String  @unique
+  description String
+  banner      String
+  logo        String
+  items       Int
+  floorPrice  Float
+  volume      Float
+}
+
+model Collection {
+  id             Int    @id @default(autoincrement())
+  name           String
+  slug           String @unique
+  description    String
+  creator        String
+  creatorAddress String
+  logo           String
+  banner         String
+  items          Int
+  owners         Int
+  floorPrice     Float
+  volume         Float
+  category       String
+  verified       Boolean
+}
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  type        String
+  item        String
+  price       Float?
+  fromAddress String
+  toAddress   String?
+  date        DateTime
+}
+

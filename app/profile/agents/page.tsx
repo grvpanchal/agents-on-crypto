@@ -1,30 +1,30 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useWeb3 } from '@/context/Web3Context';
 import { NFTGrid } from '@/components/nft/NFTGrid';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
-import { mockNFTs } from '@/lib/mockData';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
-import { NFTType } from '@/types/nft';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { fetchNFTs } from '@/store/reducers/nftSlice';
 
 export default function MyAgentsPage() {
   const { address } = useWeb3();
-  const [myNFTs, setMyNFTs] = useState<NFTType[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  
+  const dispatch = useAppDispatch();
+  const { items: nfts, loading } = useAppSelector((state) => state.nft);
+
   useEffect(() => {
-    // Simulate loading owned NFTs
-    setTimeout(() => {
-      // For demo, return some NFTs as owned
-      setMyNFTs(mockNFTs.slice(0, 3));
-      setIsLoading(false);
-    }, 1500);
-  }, [address]);
+    dispatch(fetchNFTs());
+  }, [dispatch]);
+
+  const myNFTs = nfts.filter(
+    nft => nft.creatorAddress === address || nft.creator === address
+  );
   
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">

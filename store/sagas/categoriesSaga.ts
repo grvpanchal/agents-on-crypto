@@ -1,22 +1,23 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { mockCategories } from '@/lib/mockData';
 import {
   fetchCategories,
   fetchCategoriesSuccess,
   fetchCategoriesFailure,
 } from '../reducers/categoriesSlice';
 
-function* fetchCategoriesSaga() {
+function* fetchCategoriesSaga(): Generator<any, void, any> {
   try {
-    // Simulate API call
-    yield new Promise(resolve => setTimeout(resolve, 1000));
-    yield put(fetchCategoriesSuccess(mockCategories));
+    const base = process.env.NEXT_PUBLIC_API_BASE || ''
+    const res = yield call(fetch, `${base}/api/categories`)
+    const data = yield call([res, 'json'])
+    yield put(fetchCategoriesSuccess(data))
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    yield put(fetchCategoriesFailure(errorMessage));
+    const errorMessage =
+      error instanceof Error ? error.message : 'An unknown error occurred'
+    yield put(fetchCategoriesFailure(errorMessage))
   }
 }
 
-export function* watchCategories() {
-  yield takeLatest(fetchCategories.type, fetchCategoriesSaga);
+export function* watchCategories(): Generator<any, void, any> {
+  yield takeLatest(fetchCategories.type, fetchCategoriesSaga)
 }
